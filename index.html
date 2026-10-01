@@ -1,94 +1,119 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b3d2e">
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
-<title>إدارة الزبائن والرحلات</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>إدارة الزبائن والرحلات</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d4a3b">
 </head>
 <body>
-<header>
-  <div>
-    <h1>إدارة الزبائن والرحلات</h1>
-    <small id="syncStatus">غير متصل بالمزامنة</small>
-  </div>
-  <button id="syncBtn" class="primary">↻ مزامنة</button>
-</header>
+    <header>
+        <div class="header-title">
+            <h1>إدارة الزبائن<br>والرحلات</h1>
+            <small id="syncStatusText">غير متصل بالمزامنة</small>
+        </div>
+        <button id="syncBtn" class="sync-btn" onclick="syncData()">↻ مزامنة</button>
+    </header>
 
-<nav class="tabs">
-  <button class="tab active" data-tab="customers">الزبائن</button>
-  <button class="tab" data-tab="add">إضافة</button>
-  <button class="tab" data-tab="trips">الرحلات</button>
-  <button class="tab" data-tab="settings">الإعدادات</button>
-</nav>
+    <nav class="tabs-nav">
+        <button class="tab-link active" onclick="openTab(event, 'tab-customers')">الزبائن</button>
+        <button class="tab-link" onclick="openTab(event, 'tab-add')">إضافة</button>
+        <button class="tab-link" onclick="openTab(event, 'tab-trips')">الرحلات</button>
+        <button class="tab-link" onclick="openTab(event, 'tab-settings')">الإعدادات</button>
+    </nav>
 
-<main>
-<section id="customers" class="tabpage active">
-  <div class="toolbar">
-    <input id="search" placeholder="بحث بالاسم أو الهاتف أو الولاية أو الرحلة...">
-    <button id="clearSearch">مسح</button>
-  </div>
-  <div id="filters" class="filters">
-    <select id="filterStatus"><option value="">كل الحالات</option><option>مؤكد</option><option>غير مؤكد</option></select>
-    <select id="filterRole"><option value="">كل الأدوار</option><option>معتمر</option><option>مسافر</option><option>معلن</option><option>مرشد</option></select>
-    <select id="filterRoom"><option value="">كل الغرف</option><option>ثنائية</option><option>ثلاثية</option><option>رباعية</option><option>خماسية</option><option>جماعية</option></select>
-    <select id="filterWilaya"><option value="">كل الولايات</option></select>
-  </div>
-  <div id="count" class="count"></div>
-  <div id="customerList"></div>
-</section>
+    <main>
+        <!-- تبويب الزبائن (البحث والفلاتر) -->
+        <section id="tab-customers" class="tab-content active">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="بحث..." onkeyup="filterCustomers()">
+                <button onclick="clearSearch()" class="clear-btn">مسح</button>
+            </div>
+            
+            <div class="filters-grid">
+                <select id="filterStatus" onchange="filterCustomers()"><option value="الكل">كل الحالات</option></select>
+                <select id="filterRole" onchange="filterCustomers()"><option value="الكل">كل الأدوار</option></select>
+                <select id="filterRoom" onchange="filterCustomers()"><option value="الكل">كل الغرف</option></select>
+                <select id="filterWilaya" onchange="filterCustomers()"><option value="الكل">كل الولايات</option></select>
+            </div>
 
-<section id="add" class="tabpage">
-  <form id="customerForm">
-    <input type="hidden" id="editId">
-    <label>رقم الهاتف<input id="phone" required inputmode="tel"></label>
-    <label>الولاية<select id="wilaya" required></select></label>
-    <label>الاسم<input id="name" required></label>
-    <label>الطلب / الرحلة<select id="request"></select></label>
-    <label>طلب يدوي<input id="manualRequest" placeholder="أدخل الطلب يدويًا إذا لم يكن في القائمة"></label>
-    <button type="button" id="useManual">استخدام الطلب اليدوي</button>
-    <label>الدور<select id="role"><option>معتمر</option><option>مسافر</option><option>معلن</option><option>مرشد</option></select></label>
-    <label>حالة الزبون<select id="status"><option>غير مؤكد</option><option>مؤكد</option></select></label>
-    <label>عدد الأشخاص<input id="peopleCount" type="number" min="1" max="99" value="1"></label>
-    <label>الغرفة<select id="room"><option>ثنائية</option><option>ثلاثية</option><option>رباعية</option><option>خماسية</option><option>جماعية</option></select></label>
-    <div class="formButtons">
-      <button class="primary" type="submit">إضافة / حفظ البيانات</button>
-      <button type="button" id="clearForm">تفريغ الحقول</button>
-    </div>
-  </form>
-</section>
+            <div class="record-count">عدد السجلات: <span id="recordCount">0</span></div>
+            <div id="customersList" class="list-container"></div>
+        </section>
 
-<section id="trips" class="tabpage">
-  <form id="tripForm" class="inlineForm">
-    <input id="tripName" placeholder="اسم الرحلة الجديدة" required>
-    <button class="primary">إضافة رحلة</button>
-  </form>
-  <div id="tripList"></div>
-</section>
+        <!-- تبويب الإضافة -->
+        <section id="tab-add" class="tab-content">
+            <form id="customerForm">
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <input type="tel" id="f_phone" required>
+                </div>
+                <div class="form-group">
+                    <label>الولاية</label>
+                    <select id="f_wilaya" required></select>
+                </div>
+                <div class="form-group">
+                    <label>الاسم</label>
+                    <input type="text" id="f_name" required>
+                </div>
+                <div class="form-group">
+                    <label>الطلب / الرحلة</label>
+                    <select id="f_request"></select>
+                </div>
+                <div class="form-group">
+                    <label>طلب يدوي</label>
+                    <input type="text" id="f_manual_request" placeholder="أدخل الطلب يدوياً إذا لم يكن في القائمة">
+                    <button type="button" class="action-btn mt-5" onclick="useManualRequest()">استخدام الطلب اليدوي</button>
+                </div>
+                <div class="form-group">
+                    <label>الدور</label>
+                    <select id="f_role"></select>
+                </div>
+                <div class="form-group">
+                    <label>حالة الزبون</label>
+                    <select id="f_status"></select>
+                </div>
+                <div class="form-group">
+                    <label>عدد الأشخاص</label>
+                    <input type="number" id="f_count" value="1" min="1" max="99" required>
+                </div>
+                <div class="form-group">
+                    <label>الغرفة</label>
+                    <select id="f_room"></select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="clear-form-btn" onclick="document.getElementById('customerForm').reset()">تفريغ الحقول</button>
+                    <button type="submit" class="save-btn">إضافة / حفظ البيانات</button>
+                </div>
+            </form>
+        </section>
 
-<section id="settings" class="tabpage">
-  <div class="card">
-    <h2>إعدادات المزامنة</h2>
-    <label>رابط Web App
-      <input id="syncUrl" placeholder="https://script.google.com/macros/s/.../exec">
-    </label>
-    <label>SYNC TOKEN
-      <input id="syncToken" type="password">
-    </label>
-    <button id="saveSettings" class="primary">حفظ الإعدادات</button>
-    <p class="hint">يستخدم التطبيق نفس خادم Google Apps Script الموجود في برنامج الكمبيوتر.</p>
-  </div>
-  <div class="card">
-    <h2>البيانات</h2>
-    <button id="exportBtn">تصدير نسخة احتياطية JSON</button>
-    <label class="fileLabel">استيراد نسخة JSON<input id="importFile" type="file" accept=".json"></label>
-  </div>
-</section>
-</main>
+        <!-- تبويب الرحلات -->
+        <section id="tab-trips" class="tab-content">
+            <div class="trip-add-container">
+                <input type="text" id="newTripName" placeholder="اسم الرحلة الجديدة">
+                <button onclick="addTrip()" class="save-btn">إضافة رحلة</button>
+            </div>
+            <div class="list-container" id="tripsList"></div>
+        </section>
 
-<div id="toast"></div>
-<script src="app.js"></script>
+        <!-- تبويب الإعدادات -->
+        <section id="tab-settings" class="tab-content">
+            <div style="text-align:center; padding: 20px;">
+                <p>تطبيق إدارة الزبائن - نسخة الموبايل</p>
+                <button onclick="forceSync()" class="save-btn" style="width:100%; margin-bottom:10px;">مزامنة إجبارية</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
 </body>
 </html>
