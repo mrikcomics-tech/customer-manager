@@ -1,11 +1,17 @@
 {
   "name": "إدارة الزبائن والرحلات",
   "short_name": "الزبائن",
-  "start_url": "./",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f4f6f5",
-  "theme_color": "#0b3d2e",
-  "lang": "ar",
+  "background_color": "#f9fbfc",
+  "theme_color": "#0d4a3b",
   "dir": "rtl",
-  "icons": []
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
