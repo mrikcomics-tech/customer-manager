@@ -1,7 +1,20 @@
-const CACHE="cm-pwa-v1";
-const ASSETS=["./","./index.html","./style.css","./app.js","./manifest.json"];
-self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
-self.addEventListener("fetch",e=>{
- if(e.request.method!=="GET") return;
- e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(x=>{const c=x.clone();caches.open(CACHE).then(k=>k.put(e.request,c));return x}).catch(()=>caches.match("./"))));
+const CACHE_NAME = 'customer-v2';
+const urlsToCache = [
+  './',
+  './index.html',
+  './style.css',
+  './app.js',
+  './manifest.json'
+];
+
+self.addEventListener('install', e => {
+  e.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+  );
+});
+
+self.addEventListener('fetch', e => {
+  e.respondWith(
+    caches.match(e.request).then(response => response || fetch(e.request))
+  );
 });
