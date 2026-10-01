@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b3d2e">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+<title>إدارة الزبائن والرحلات</title>
+</head>
+<body>
+<header>
+  <div>
+    <h1>إدارة الزبائن والرحلات</h1>
+    <small id="syncStatus">غير متصل بالمزامنة</small>
+  </div>
+  <button id="syncBtn" class="primary">↻ مزامنة</button>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="customers">الزبائن</button>
+  <button class="tab" data-tab="add">إضافة</button>
+  <button class="tab" data-tab="trips">الرحلات</button>
+  <button class="tab" data-tab="settings">الإعدادات</button>
+</nav>
+
+<main>
+<section id="customers" class="tabpage active">
+  <div class="toolbar">
+    <input id="search" placeholder="بحث بالاسم أو الهاتف أو الولاية أو الرحلة...">
+    <button id="clearSearch">مسح</button>
+  </div>
+  <div id="filters" class="filters">
+    <select id="filterStatus"><option value="">كل الحالات</option><option>مؤكد</option><option>غير مؤكد</option></select>
+    <select id="filterRole"><option value="">كل الأدوار</option><option>معتمر</option><option>مسافر</option><option>معلن</option><option>مرشد</option></select>
+    <select id="filterRoom"><option value="">كل الغرف</option><option>ثنائية</option><option>ثلاثية</option><option>رباعية</option><option>خماسية</option><option>جماعية</option></select>
+    <select id="filterWilaya"><option value="">كل الولايات</option></select>
+  </div>
+  <div id="count" class="count"></div>
+  <div id="customerList"></div>
+</section>
+
+<section id="add" class="tabpage">
+  <form id="customerForm">
+    <input type="hidden" id="editId">
+    <label>رقم الهاتف<input id="phone" required inputmode="tel"></label>
+    <label>الولاية<select id="wilaya" required></select></label>
+    <label>الاسم<input id="name" required></label>
+    <label>الطلب / الرحلة<select id="request"></select></label>
+    <label>طلب يدوي<input id="manualRequest" placeholder="أدخل الطلب يدويًا إذا لم يكن في القائمة"></label>
+    <button type="button" id="useManual">استخدام الطلب اليدوي</button>
+    <label>الدور<select id="role"><option>معتمر</option><option>مسافر</option><option>معلن</option><option>مرشد</option></select></label>
+    <label>حالة الزبون<select id="status"><option>غير مؤكد</option><option>مؤكد</option></select></label>
+    <label>عدد الأشخاص<input id="peopleCount" type="number" min="1" max="99" value="1"></label>
+    <label>الغرفة<select id="room"><option>ثنائية</option><option>ثلاثية</option><option>رباعية</option><option>خماسية</option><option>جماعية</option></select></label>
+    <div class="formButtons">
+      <button class="primary" type="submit">إضافة / حفظ البيانات</button>
+      <button type="button" id="clearForm">تفريغ الحقول</button>
+    </div>
+  </form>
+</section>
+
+<section id="trips" class="tabpage">
+  <form id="tripForm" class="inlineForm">
+    <input id="tripName" placeholder="اسم الرحلة الجديدة" required>
+    <button class="primary">إضافة رحلة</button>
+  </form>
+  <div id="tripList"></div>
+</section>
+
+<section id="settings" class="tabpage">
+  <div class="card">
+    <h2>إعدادات المزامنة</h2>
+    <label>رابط Web App
+      <input id="syncUrl" placeholder="https://script.google.com/macros/s/.../exec">
+    </label>
+    <label>SYNC TOKEN
+      <input id="syncToken" type="password">
+    </label>
+    <button id="saveSettings" class="primary">حفظ الإعدادات</button>
+    <p class="hint">يستخدم التطبيق نفس خادم Google Apps Script الموجود في برنامج الكمبيوتر.</p>
+  </div>
+  <div class="card">
+    <h2>البيانات</h2>
+    <button id="exportBtn">تصدير نسخة احتياطية JSON</button>
+    <label class="fileLabel">استيراد نسخة JSON<input id="importFile" type="file" accept=".json"></label>
+  </div>
+</section>
+</main>
+
+<div id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
