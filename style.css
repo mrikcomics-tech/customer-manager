@@ -1,1 +1,48 @@
-*{box-sizing:border-box}body{margin:0;background:#f4f6f5;color:#17201c;font-family:Tahoma,Arial,sans-serif}header{position:sticky;top:0;z-index:10;background:#0b3d2e;color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}h1{font-size:20px;margin:0 0 5px}h2{font-size:18px}.primary{background:#0b3d2e!important;color:#fff!important;border:0!important}.tabs{display:flex;position:sticky;top:76px;z-index:9;background:#fff;border-bottom:1px solid #ddd;overflow:auto}.tab{flex:1;min-width:100px;border:0;background:#fff;padding:13px 8px;font-weight:bold}.tab.active{color:#0b3d2e;border-bottom:3px solid #0b3d2e}.tabpage{display:none;max-width:850px;margin:auto;padding:14px}.tabpage.active{display:block}.toolbar{display:flex;gap:8px}.toolbar input{flex:1}.filters{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}.count{font-weight:bold;margin:12px 0}.card,.customer,.trip{background:#fff;border-radius:12px;padding:14px;margin:10px 0;box-shadow:0 1px 5px #00000012}.customer h3{margin:0 0 8px}.meta{display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:14px}.actions{display:flex;gap:8px;margin-top:12px}.actions button{flex:1}label{display:block;font-weight:bold;margin:10px 0}input,select,button{width:100%;padding:12px;border:1px solid #cfd6d2;border-radius:9px;background:#fff;font:inherit}button{cursor:pointer}.formButtons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}.inlineForm{display:grid;grid-template-columns:1fr 130px;gap:8px}.fileLabel{cursor:pointer}.fileLabel input{margin-top:6px}.hint{color:#65716b;font-size:13px}.danger{background:#b42318!important;color:#fff!important;border:0}.success{color:#087443}.muted{color:#68756e}#toast{position:fixed;bottom:20px;left:15px;right:15px;background:#17201c;color:#fff;padding:13px;border-radius:10px;text-align:center;display:none;z-index:50}@media(max-width:600px){.meta{grid-template-columns:1fr}.filters{grid-template-columns:1fr}.formButtons{grid-template-columns:1fr}.inlineForm{grid-template-columns:1fr}.tabs{top:74px}header{padding:12px}header button{width:auto;min-width:90px}.tabpage{padding:10px}}
+* { box-sizing: border-box; font-family: 'Tahoma', Arial, sans-serif; }
+body { margin: 0; background: #f9fbfc; color: #333; padding-bottom: 20px;}
+
+/* Header */
+header { background: #0d4a3b; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10;}
+.header-title h1 { margin: 0; font-size: 1.2rem; line-height: 1.4;}
+.header-title small { font-size: 0.75rem; color: #a8d5ba; }
+.sync-btn { background: transparent; color: white; border: 1px solid #a8d5ba; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; cursor: pointer;}
+.sync-btn:disabled { opacity: 0.5; }
+
+/* Tabs */
+.tabs-nav { display: flex; background: #ffffff; border-bottom: 1px solid #ddd; position: sticky; top: 72px; z-index: 9;}
+.tab-link { flex: 1; background: none; border: none; padding: 12px 0; font-size: 1rem; color: #555; cursor: pointer; border-bottom: 3px solid transparent;}
+.tab-link.active { color: #0d4a3b; font-weight: bold; border-bottom-color: #0d4a3b; }
+.tab-content { display: none; padding: 15px; }
+.tab-content.active { display: block; }
+
+/* Form Elements */
+.form-group { margin-bottom: 12px; display: flex; flex-direction: column;}
+.form-group label { text-align: right; font-size: 0.9rem; margin-bottom: 5px; color: #444; font-weight: bold;}
+input, select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; background: #fff;}
+.mt-5 { margin-top: 5px; }
+
+/* Buttons */
+.action-btn { background: #f0f0f0; border: 1px solid #ccc; padding: 10px; border-radius: 4px; color: #333; cursor: pointer;}
+.form-actions { display: flex; gap: 10px; margin-top: 20px;}
+.form-actions button { flex: 1; padding: 12px; font-size: 1rem; border-radius: 4px; cursor: pointer; font-weight: bold; border: none;}
+.clear-form-btn { background: #fff; border: 1px solid #ccc !important; color: #333;}
+.save-btn { background: #0d4a3b; color: white;}
+
+/* Customers Tab */
+.search-container { display: flex; gap: 10px; margin-bottom: 15px;}
+.search-container input { flex: 1; }
+.clear-btn { background: #fff; border: 1px solid #ccc; padding: 0 15px; border-radius: 4px; cursor: pointer;}
+.filters-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;}
+.record-count { text-align: right; font-weight: bold; color: #0d4a3b; margin-bottom: 10px;}
+
+/* Lists */
+.list-container { display: flex; flex-direction: column; gap: 10px;}
+.card { background: white; padding: 15px; border-radius: 6px; border: 1px solid #e0e0e0; border-right: 4px solid #0d4a3b; box-shadow: 0 1px 3px rgba(0,0,0,0.05);}
+.card h3 { margin: 0 0 8px 0; font-size: 1.1rem; color: #0d4a3b;}
+.card p { margin: 4px 0; font-size: 0.9rem; color: #444; }
+
+/* Trips Tab */
+.trip-add-container { display: flex; gap: 10px; margin-bottom: 20px;}
+.trip-add-container input { flex: 1; }
+.trip-item { background: white; padding: 12px; border-radius: 4px; border: 1px solid #ddd; display: flex; justify-content: space-between;}
+.trip-item button { background: #dc3545; color: white; border: none; border-radius: 4px; padding: 5px 10px;}
